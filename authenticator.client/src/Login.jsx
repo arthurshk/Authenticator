@@ -1,55 +1,37 @@
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import React from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
-import React, { useEffect } from 'react';
 
 const Login = () => {
-    const handleLoginSuccess = async (response) => {
-        const { credential } = response;
-        try {
-            const res = await axios.post('/api/auth/google-login', { token: credential });
-            localStorage.setItem('token', res.data.token);
-            console.log("Login successful, token saved.");
-        } catch (error) {
-            console.error('Login failed', error);
-        }
-    };
+    const { loginWithRedirect, logout, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
-    const fetchProtectedData = async () => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            console.log('No token found, please log in.');
-            return;
-        }
-
+    const fetchSecureData = async () => {
         try {
-            const res = await axios.get('/api/protected', {
+            const token = await getAccessTokenSilently();
+            const response = await axios.get('/api/secure', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            console.log("Protected data:", res.data);
+            console.log(response.data);
         } catch (error) {
-            console.error('Error fetching protected data', error);
+            console.error('Error fetching secure data:', error);
         }
     };
 
-    useEffect(() => {
-        fetchProtectedData();
-    }, []);
-
     return (
-        <GoogleOAuthProvider clientId="GOOGLE_CLIENT_ID">
-            <div>
-                <h1>Login with Google</h1>
-                <GoogleLogin
-                    onSuccess={handleLoginSuccess}
-                    onError={() => console.log('Login Failed')}
-                />
-                <button onClick={fetchProtectedData}>
-                    Fetch Protected Data
-                </button>
-            </div>
-        </GoogleOAuthProvider>
+        <div>
+            {!isAuthenticated ? (
+                <button onClick={() => loginWithRedirect()}>Log In</button>
+            ) : (
+                <div>
+                    <button onClick={() => logout({ returnTo: window.location.origin })}>
+                        Log Out
+                    </button>
+                    <button onClick={fetchSecureData}>Fetch Secure Data</button> 
+                </div>
+            )}
+        </div>
     );
 };
 

@@ -1,0 +1,12 @@
+# Environmental Variables
+.env
+
+# Ignores
+bin/
+obj/
+*.log
+*.user
+*.suo
+*.userosscache
+*.suo
+*.vscode/
