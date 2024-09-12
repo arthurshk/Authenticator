@@ -8,7 +8,7 @@ const Login = () => {
     const fetchSecureData = async () => {
         try {
             const token = await getAccessTokenSilently();
-            const response = await axios.get('/api/secure', {
+            const response = await axios.get('/api/Auth/secure', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
