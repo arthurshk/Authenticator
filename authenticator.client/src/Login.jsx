@@ -7,7 +7,7 @@ const Login = () => {
 
     const fetchSecureData = async () => {
         try {
-            const token = await getAccessTokenSilently();
+            const token = await getAccessTokenSilently(); //get the url from the asp.net backend
             const response = await axios.get('/api/Auth/secure', {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -22,8 +22,8 @@ const Login = () => {
     return (
         <div>
             {!isAuthenticated ? (
-                <button onClick={() => loginWithRedirect()}>Log In</button>
-            ) : (
+                <button style={{ width: '30%', position: 'relative', left: '42.5%' }} onClick={() => loginWithRedirect()}>Log In</button>
+            ) : ( //if logged in display the logged in screen 
                 <div>
                     <button onClick={() => logout({ returnTo: window.location.origin })}>
                         Log Out
