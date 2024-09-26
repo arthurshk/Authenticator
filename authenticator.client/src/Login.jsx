@@ -3,6 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 
 const Login = () => {
+    //extract properties/methods from the useAuth0 hook.
     const { loginWithRedirect, logout, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
     const fetchSecureData = async () => {
