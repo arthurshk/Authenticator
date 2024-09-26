@@ -22,7 +22,7 @@ const Login = () => {
     return (
         <div>
             {!isAuthenticated ? (
-                <button style={{ width: '30%', position: 'relative', left: '42.5%' }} onClick={() => loginWithRedirect()}>Log In</button>
+                <button style={{ width: "30%", position: "relative", left: "42.5%" }} onClick={() => loginWithRedirect()}>Log In</button>
             ) : ( //if logged in display the logged in screen 
                 <div>
                     <button onClick={() => logout({ returnTo: window.location.origin })}>
